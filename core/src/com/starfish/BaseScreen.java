@@ -1,15 +1,13 @@
 package com.starfish;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.InputMultiplexer;
-
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public abstract class BaseScreen implements Screen, InputProcessor
 {
@@ -17,8 +15,6 @@ public abstract class BaseScreen implements Screen, InputProcessor
 
     protected Stage mainStage;
     protected Stage uiStage;
-
-    protected Table uiTable;
 
     public final int viewWidth  = 800;
     public final int viewHeight = 600;
@@ -31,10 +27,6 @@ public abstract class BaseScreen implements Screen, InputProcessor
 
         mainStage = new Stage( new FitViewport(viewWidth, viewHeight) );
         uiStage   = new Stage( new FitViewport(viewWidth, viewHeight) );
-
-        uiTable = new Table();
-        uiTable.setFillParent(true);
-        uiStage.addActor(uiTable);
 
         paused = false;
 

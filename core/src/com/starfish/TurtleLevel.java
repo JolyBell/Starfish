@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.MathUtils;
 import java.util.ArrayList;
@@ -20,67 +21,69 @@ public class TurtleLevel extends BaseScreen
     private int mapWidth = 800;
     private int mapHeight = 600;
 
-    public TurtleLevel(Game g) {
-        super(g);
-    }
+    public TurtleLevel(Game g)
+    {  super(g);  }
 
-    public void create() {
+    public void create()
+    {
         ocean = new BaseActor();
-        ocean.setTexture(new Texture(Gdx.files.internal("water.jpg")));
-        ocean.setPosition(0, 0);
-        mainStage.addActor(ocean);
+        ocean.setTexture( new Texture(Gdx.files.internal("water.jpg")) );
+        ocean.setPosition( 0, 0 );
+        mainStage.addActor( ocean );
 
         BaseActor overlay = ocean.clone();
-        overlay.setPosition(-50, -50);
-        overlay.setColor(1, 1, 1, 0.25f);
+        overlay.setPosition(-50,-50);
+        overlay.setColor(1,1,1,0.25f);
         uiStage.addActor(overlay);
-        overlay.toBack(); // necessary so it doesn't overlay and block access to buttons in UI
 
         BaseActor rock = new BaseActor();
-        rock.setTexture(new Texture(Gdx.files.internal("rock.png")));
+        rock.setTexture( new Texture(Gdx.files.internal("rock.png")) );
         rock.setEllipseBoundary();
 
         rockList = new ArrayList<BaseActor>();
-        int[] rockCoords = {200, 0, 200, 100, 250, 200, 360, 200, 470, 200};
-        for (int i = 0; i < 5; i++) {
+        int[] rockCoords = {200,0, 200,100, 250,200, 360,200, 470,200};
+        for (int i = 0; i < 5; i++)
+        {
             BaseActor r = rock.clone();
-            r.setPosition(rockCoords[2 * i], rockCoords[2 * i + 1]);
-            mainStage.addActor(r);
-            rockList.add(r);
+            r.setPosition( rockCoords[2*i], rockCoords[2*i+1] );
+            mainStage.addActor( r );
+            rockList.add( r );
         }
 
         BaseActor starfish = new BaseActor();
-        starfish.setTexture(new Texture(Gdx.files.internal("starfish.png")));
+        starfish.setTexture( new Texture(Gdx.files.internal("starfish.png")) );
         starfish.setEllipseBoundary();
 
         starfishList = new ArrayList<BaseActor>();
-        int[] starfishCoords = {400, 100, 100, 400, 650, 400};
-        for (int i = 0; i < 3; i++) {
+        int[] starfishCoords = {400,100, 100,400, 650,400};
+        for (int i = 0; i < 3; i++)
+        {
             BaseActor s = starfish.clone();
-            s.setPosition(starfishCoords[2 * i], starfishCoords[2 * i + 1]);
-            mainStage.addActor(s);
-            starfishList.add(s);
+            s.setPosition( starfishCoords[2*i], starfishCoords[2*i+1] );
+            mainStage.addActor( s );
+            starfishList.add( s );
         }
 
         turtle = new PhysicsActor();
         TextureRegion[] frames = new TextureRegion[6];
-        for (int n = 1; n <= 6; n++) {
+        for (int n = 1; n <= 6; n++)
+        {
             String fileName = "turtle-" + n + ".png";
             Texture tex = new Texture(Gdx.files.internal(fileName));
             tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-            frames[n - 1] = new TextureRegion(tex);
+            frames[n-1] = new TextureRegion( tex );
         }
         Array<TextureRegion> framesArray = new Array<TextureRegion>(frames);
 
         Animation anim = new Animation(0.1f, framesArray, Animation.PlayMode.LOOP);
-        turtle.storeAnimation("swim", anim);
+        turtle.storeAnimation( "swim", anim );
 
         Texture frame1 = new Texture(Gdx.files.internal("turtle-1.png"));
-        turtle.storeAnimation("rest", frame1);
+        turtle.storeAnimation( "rest", frame1 );
 
-        turtle.setOrigin(turtle.getWidth() / 2, turtle.getHeight() / 2);
-        turtle.setPosition(20, 20);
-        turtle.setRotation(90);
+        turtle.setOrigin( turtle.getWidth()/2, turtle.getHeight()/2 );
+        turtle.setPosition( 20, 20 );
+        turtle.setRotation( 90 );
         turtle.setEllipseBoundary();
         turtle.setMaxSpeed(100);
         turtle.setDeceleration(200);
@@ -126,7 +129,6 @@ public class TurtleLevel extends BaseScreen
             b.remove();             // remove from stage
             starfishList.remove(b); // remove from list used by update
         }
-
     }
 
     @Override
